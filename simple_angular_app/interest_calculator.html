@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+<div ng-app="myApp" ng-controller="myCtrl" style="top: 50%;left: 50%;position: absolute;transform: translate(-50%,-50%)">
+    <label>Time
+        <input type="number" ng-model="years"><br>
+    </label>
+    <br>
+    <label>Principal:
+        <input type="number" ng-model="principal"><br>
+    </label>
+    <br>
+    <label>Rate of Interest
+        <input type="number" ng-model="roi"><br>
+    </label>
+    <br>
+    <button class="btn btn-outline-primary" ng-click="calculate()">Calculate</button><br>
+    <br>
+    <p>After {{years}} years your investment will be worth {{ calculated_interest }}</p>
+</div>
+<script>
+    let app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope) {
+        $scope.principal = 0;
+        $scope.roi = 0;
+        $scope.years = 0;
+        $scope.calculated_interest = 0;
+        $scope.calculate = function () {
+            let si = ($scope.principal * $scope.roi * $scope.years) / 100;
+            $scope.calculated_interest = $scope.principal + si;
+        }
+
+    });
+</script>
+</body>
+</html>

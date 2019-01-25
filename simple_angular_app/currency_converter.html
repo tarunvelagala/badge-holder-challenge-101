@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html data-ng-app="MyApp">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+
+</head>
+
+<body data-ng-controller="InvoiceController as invoice" style="top: 50%;left: 50%;position: absolute;transform: translate(-50%,-50%)">
+<input id="inputCurr" type="number" min="0" ng-model="invoice.inputValue">
+<select data-ng-model="invoice.inCurr">
+    <option data-ng-repeat="curr in invoice.currencies">{{curr}}</option>
+</select>
+<br/>
+<br/>
+<input id="oututCurr" type="number" min="0" ng-model="invoice.output()">
+<select data-ng-model="invoice.outCurr">
+    <option data-ng-repeat="curr in invoice.currencies">{{curr}}</option>
+</select>
+</body>
+<script>
+    var app = angular.module("MyApp", []).controller("InvoiceController", function () {
+        this.currencies = ['INR', 'EUR', 'USD'];
+        this.inCurr = "INR";
+        this.outCurr = "EUR";
+        this.inrToForeignRates = {
+            INR: 1,
+            EUR: 0.013,
+            USD: 0.015
+        };
+        this.inputValue = 10;
+        this.outputValue = function (input, inCurr, outCurr) {
+            return input * this.inrToForeignRates[outCurr] / this.inrToForeignRates[inCurr];
+        };
+        this.output = function () {
+            return this.outputValue(this.inputValue, this.inCurr, this.outCurr);
+        };
+    });
+
+</script>
+</html>

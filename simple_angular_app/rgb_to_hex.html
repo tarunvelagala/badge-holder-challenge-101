@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body ng-app="MyApp" ng-controller="myCtrl"
+      style="top: 50%;left: 50%;position: absolute;transform: translate(-50%,-50%)">
+<label>
+    R
+    <input type="number" ng-model="r">
+</label>
+&nbsp;
+<label>
+    G
+    <input type="number" ng-model="g">
+</label>
+&nbsp;
+<label>
+    B
+    <input type="number" ng-model="b">
+</label>
+<br>
+<button class="btn btn-outline-primary" ng-click="convert_rgb_hex()">Convert to HEX</button>
+<p>{{ hex_value }}</p>
+<br>
+
+<div ng-style="{'background-color':hex_value,'display':'block'}" style="width: 50px;height: 50px;display: none;"></div>
+<br>
+<label>
+    HEX
+    <input type="text" ng-model="hex_to_rgb">
+</label>
+<br>
+<button class="btn btn-outline-success" ng-click="convert_hex_rgb()">Convert to RGB</button>
+&nbsp;
+<div ng-style="{'background-color':hex_to_rgb,'display':'block'}" style="width: 50px;height: 50px;display: none;"></div>
+<p>{{ rgb_value }}</p>
+<script>
+    const hexToRgb = hex =>
+        hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+            , (m, r, g, b) => '#' + r + r + g + g + b + b)
+            .substring(1).match(/.{2}/g)
+            .map(x => parseInt(x, 16))
+    let app = angular.module('MyApp', []);
+    app.controller('myCtrl', function ($scope) {
+        $scope.r = 0;
+        $scope.g = 0;
+        $scope.b = 0;
+        $scope.hex_to_rgb = '';
+        $scope.convert_rgb_hex = function () {
+            $scope.hex_value = "#" + ((1 << 24) + ($scope.r << 16) + ($scope.g << 8) + $scope.b).toString(16).slice(1);
+        }
+        $scope.convert_hex_rgb = function () {
+            $scope.rgb_value = hexToRgb($scope.hex_to_rgb);
+        }
+    });
+</script>
+</body>
+</html>
